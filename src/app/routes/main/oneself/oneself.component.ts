@@ -10,9 +10,7 @@ import { HttpService } from 'src/app/shared/services/http';
 
 export class OneSelfComponent implements OnInit {
 	
-	titles=["","设备绑定","姓名绑定"];
-	title;
-	id=1;
+	
 	data = [];
 	loading = true;
 
@@ -27,29 +25,30 @@ export class OneSelfComponent implements OnInit {
 		// this.id = +this.route.snapshot.data.id;
 		// this.title = this.titles[this.id];
 
-		// this.getMeetList();
+		this.getUserCircle();
 	}
 
 	meetClick(item):void{
-        if(this.id==1){
-            this.router.navigate(['/seatlist/code',{id:this.id,meetid:item.id}]);
-        }else{
-            this.router.navigate(['/seatlist/name',{id:this.id,meetid:item.id}]);
-        }
+        // if(this.id==1){
+        //     this.router.navigate(['/seatlist/code',{id:this.id,meetid:item.id}]);
+        // }else{
+        //     this.router.navigate(['/seatlist/name',{id:this.id,meetid:item.id}]);
+        // }
 	}
 	
-	getMeetList():void{
+	getUserCircle():void{
 		this.loading = true;
+		
 		const params: Map<string, any> = new Map<string, any>();
 
-		let url = "/roomtemplate/findAll";
-		if(this.id == 2){
-			url = "/meeting/findAll";
-		}
+		let uid = window['context']['uid'];
+		let url = "/jqkj/cricle/getUserCircle";
+		params.set("uid",uid);
+
 		this.http.get(url, params, null).subscribe(data => {
-			if(data.code == 0){
-				this.data = data.data || [];
-			}
+			// if(data.code == 0){
+			// 	this.data = data.data || [];
+			// }
 			this.loading = false;
 		}, error => {
 			console.error(error);

@@ -8,19 +8,19 @@ import { HttpService } from './shared/services/http';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    SharedModule,
-    AppRoutingModule
-  ],
-  providers: [
-    HttpClient,
-    HttpService
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent
+	],
+	imports: [
+		BrowserModule,
+		HttpClientModule,
+		SharedModule,
+		AppRoutingModule
+	],
+	providers: [
+		HttpClient,
+		HttpService
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,11 +10,12 @@ import { HttpService } from 'src/app/shared/services/http';
 
 export class ChoiceComponent implements OnInit {
 	
-	titles=["","设备绑定","姓名绑定"];
-	title;
-	id=1;
+	// titles=["","设备绑定","姓名绑定"];
+	// title;
+	// id=1;
 	data = [];
 	loading = true;
+	me:any;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -27,28 +28,35 @@ export class ChoiceComponent implements OnInit {
 		// this.id = +this.route.snapshot.data.id;
 		// this.title = this.titles[this.id];
 
-		// this.getMeetList();
+		this.getSelectedCircle();
 	}
 
 	meetClick(item):void{
-        if(this.id==1){
-            this.router.navigate(['/seatlist/code',{id:this.id,meetid:item.id}]);
-        }else{
-            this.router.navigate(['/seatlist/name',{id:this.id,meetid:item.id}]);
-        }
+        // if(this.id==1){
+        //     this.router.navigate(['/seatlist/code',{id:this.id,meetid:item.id}]);
+        // }else{
+        //     this.router.navigate(['/seatlist/name',{id:this.id,meetid:item.id}]);
+        // }
 	}
 	
-	getMeetList():void{
+	getSelectedCircle():void{
 		this.loading = true;
 		const params: Map<string, any> = new Map<string, any>();
 
-		let url = "/roomtemplate/findAll";
-		if(this.id == 2){
-			url = "/meeting/findAll";
-		}
+		let url = "/jqkj/cricle/getSelectedCircle";
 		this.http.get(url, params, null).subscribe(data => {
-			if(data.code == 0){
+			if(data.status == 1){
 				this.data = data.data || [];
+
+				// if(arr.length < this.condi.pageSize){
+				// 	// 锁定
+				// 	this.me.lock();
+				// 	// 无数据
+				// 	this.me.noData(true);
+				// }
+				setTimeout(()=>{
+					this.me.resetload();
+				},200);
 			}
 			this.loading = false;
 		}, error => {
@@ -57,6 +65,26 @@ export class ChoiceComponent implements OnInit {
 		});
 	}
 
+
+	drapUp(me:any){
+        console.log("drapUp-----");
+        this.me = me;
+        this.me.resetload();
+        this.me.unlock();
+        this.me.noData(false);
+        // this.condi.pageNum = 1;
+        // this.listData = [];
+        // this.getData();
+        // this.getUserData();
+        // this.getUserFCode();
+    }
+    drapDown(me:any){
+        console.log("drapDown------------");
+        this.me = me;
+        // this.condi.pageNum++;
+        // this.getData();
+	}
+	
 	// setSenseName(item:any): void {
 	// 	const params: Map<string, any> = new Map<string, any>();
 	// 	params.set('name', item.name);
