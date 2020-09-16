@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { PageRoutes } from './OneSelf.routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { OneSelfComponent } from './oneself.component';
+import { VideoListComponent } from './cpt/videolist.component';
+import { PlayListComponent } from './cpt/playlist.component';
 
 @NgModule({
 	imports: [
@@ -13,6 +15,8 @@ import { OneSelfComponent } from './oneself.component';
 	],
 	declarations: [
 		OneSelfComponent,
+		VideoListComponent,
+		PlayListComponent,
 		// CarouselSensePipe,
 		// DelSensePipe,
 		// SenseSharedKeySearchPipe

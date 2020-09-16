@@ -17,18 +17,27 @@ export class ChoiceComponent implements OnInit {
 	loading = true;
 	me:any;
 
+	page = 0;
+	limit = 10;
+
+	headImg = "./assets/images/headimg.png";
+	videoImg = "./assets/images/listimg.jpg";
+
+	baseUrl = "";
+
 	constructor(
 		private route: ActivatedRoute,
 		private http: HttpService,
 		private router: Router
 	) {
+		this.baseUrl = window["context"]["apiroot"];
 	}
 
 	ngOnInit() {
 		// this.id = +this.route.snapshot.data.id;
 		// this.title = this.titles[this.id];
 
-		this.getSelectedCircle();
+		
 	}
 
 	meetClick(item):void{
@@ -38,26 +47,45 @@ export class ChoiceComponent implements OnInit {
         //     this.router.navigate(['/seatlist/name',{id:this.id,meetid:item.id}]);
         // }
 	}
+
+	// baseUrl + '/' + item.video_image || videoImg
+
+	// get getVideoImage(ele:any,url:any){
+	// 	ele.src = this.videoImg;
+
+	// 	let img = new Image();
+    //     img.src = this.baseUrl + "/" + url;
+    //     img.onload = function(){
+	// 		// console.log(11111111111)
+    //         // ele.src = this.baseUrl + "/" + url;
+    //     }.bind(this);
+	// }
 	
 	getSelectedCircle():void{
 		this.loading = true;
 		const params: Map<string, any> = new Map<string, any>();
+		params.set("page",this.page);
+		params.set("limit",this.limit);
 
 		let url = "/jqkj/cricle/getSelectedCircle";
 		this.http.get(url, params, null).subscribe(data => {
-			if(data.status == 1){
-				this.data = data.data || [];
+			if(data.code == 0){
+				let list = data.data || [];
 
-				// if(arr.length < this.condi.pageSize){
-				// 	// 锁定
-				// 	this.me.lock();
-				// 	// 无数据
-				// 	this.me.noData(true);
-				// }
+				this.data = this.data.concat(list);
+
+				if(list.length < this.limit){
+					// 锁定
+					this.me.lock();
+					// 无数据
+					this.me.noData(true);
+				}
+
 				setTimeout(()=>{
 					this.me.resetload();
 				},200);
 			}
+
 			this.loading = false;
 		}, error => {
 			console.error(error);
@@ -71,18 +99,17 @@ export class ChoiceComponent implements OnInit {
         this.me = me;
         this.me.resetload();
         this.me.unlock();
-        this.me.noData(false);
-        // this.condi.pageNum = 1;
-        // this.listData = [];
-        // this.getData();
-        // this.getUserData();
-        // this.getUserFCode();
+		this.me.noData(false);
+		
+        this.page = 1;
+        this.data = [];
+        this.getSelectedCircle();
     }
     drapDown(me:any){
         console.log("drapDown------------");
         this.me = me;
-        // this.condi.pageNum++;
-        // this.getData();
+        this.page++;
+        this.getSelectedCircle();
 	}
 	
 	// setSenseName(item:any): void {

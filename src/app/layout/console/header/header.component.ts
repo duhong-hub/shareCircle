@@ -15,15 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     </div>
     <div class="tabDiv">
         <ul class="tabDiv-box">
-            <li class="tabDivActive">精选</li>
-            <li>关注</li>
-            <li>我的圈子</li>
-            <li>音乐圈</li>
-            <li>私密圈 </li>
-            <li>娱乐圈</li>
-            <li>娱乐圈</li>
-            <li>娱乐圈</li>
-            <li>娱乐圈</li>
+            <li (click)="menuClick(item);" *ngFor="let item of menus;let i = index;" [class.tabDivActive]="item.current" >{{item.name}}</li>
         </ul>
     </div>
     `,
@@ -32,16 +24,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 export class HeaderConsoleComponent implements OnInit {
-    ctx: string;
+    // ctx: string;
+    // id=1;
+    uid;
 
-    id=1;
+    // <li class="tabDivActive">精选</li>
+    menus = [
+        {id:1,name:"精选",current:true},
+        {id:2,name:"关注",current:false},
+        {id:3,name:"我的圈子",current:false}
+    ];
 
     constructor(
         private route: ActivatedRoute,
         private router: Router
     ) { 
         
-
+        // console.log(this.router.url);
+        // let url = this.router.url;
+        // if(url.indexOf("/main/choice") > -1){
+        //     this.menus[0].current = true;
+        // }
         // this.route.params.pipe(map).map(params => {
         //     return params['id'];
         // }).subscribe(id => {
@@ -53,6 +56,7 @@ export class HeaderConsoleComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.uid = window["context"]["uid"];
         // let url = this.router.url;
         // if(url == '/meetlist/name'){
         //     this.id = 2;
@@ -61,7 +65,23 @@ export class HeaderConsoleComponent implements OnInit {
         // }
     }
 
-    changeType(i):void{
+    menuClick(item):void{
+        this.menus.map((item)=>item.current=false);
+
+        switch(item.id){
+            case 1:
+                this.menus[0].current = true;
+                this.router.navigate(['/main/choice'],{queryParams:{uid:this.uid}});
+            break;
+            case 2:
+                this.menus[1].current = true;
+                this.router.navigate(['/main/attention/all']);
+            break;
+            case 3:
+                this.menus[2].current = true;
+                this.router.navigate(['/main/oneself']);
+            break;
+        }
         // this.id = i;
         // if(i==1){
         //     this.router.navigate(['/meetlist/code']);

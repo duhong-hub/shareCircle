@@ -1,4 +1,5 @@
 <loading [isshow]="loading"></loading>
+
 <div class="myinfo">
     <p class="a"><img src="assets/images/listimg.jpg" alt=""></p>
     <p class="b">用户张三丰<span></span></p>
@@ -6,10 +7,12 @@
 
 <div class="contDivOutside">
     <ul class="contTab">
-        <li>视频</li>
-        <li class="tabDivActive">播放列表</li>
+        <li (click)="changePage(1)" [class.tabDivActive]="pageType==1" >视频</li>
+        <li (click)="changePage(2)" [class.tabDivActive]="pageType==2" >播放列表</li>
     </ul>
-    <div class="contDiv" style="display: none;">
+    <self-video-list *ngIf="pageType==1"></self-video-list>
+    <self-play-list *ngIf="pageType==2"></self-play-list>
+    <!-- <div class="contDiv" style="display: none;">
         <ul class="contDiv-list">
             <li>
                 <div class="contDiv-img">
@@ -174,8 +177,8 @@
                 </div>
             </li>
         </ul>
-    </div>
-    <div class="contDiv" style="display: none-;">
+    </div> -->
+    <!-- <div class="contDiv" style="display: none-;">
         <ul class="bofanglist-list">
             <li>
                 <div class="bofanglist-img">
@@ -313,5 +316,5 @@
                 </div>
             </li>
         </ul>
-    </div>
+    </div> -->
 </div>
