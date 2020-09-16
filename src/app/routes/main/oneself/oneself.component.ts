@@ -11,7 +11,7 @@ import { HttpService } from 'src/app/shared/services/http';
 export class OneSelfComponent implements OnInit {
 	
 	// data = [];
-	// loading = true;
+	loading = true;
 	// me:any;
 
 	// page = 0;
